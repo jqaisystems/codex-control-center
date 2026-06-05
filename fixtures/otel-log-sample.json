@@ -1,0 +1,24 @@
+{
+  "resourceLogs": [
+    {
+      "scopeLogs": [
+        {
+          "logRecords": [
+            {
+              "timeUnixNano": "1780483200000000000",
+              "body": { "stringValue": "codex.tool_result" },
+              "attributes": [
+                { "key": "event.name", "value": { "stringValue": "codex.tool_result" } },
+                { "key": "conversation.id", "value": { "stringValue": "demo-session-0001" } },
+                { "key": "model", "value": { "stringValue": "gpt-5-codex" } },
+                { "key": "tool.name", "value": { "stringValue": "shell_command" } },
+                { "key": "success", "value": { "boolValue": true } },
+                { "key": "duration_ms", "value": { "intValue": 42 } }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

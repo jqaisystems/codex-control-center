@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Node
+ui/node_modules/
+ui/dist/
+*.tsbuildinfo
+
+# Local/private runtime data
+.env
+.env.*
+!.env.example
+auth.json
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+*.db-shm
+*.db-wal
+*.log
+logs/
+data/
+.codex-control-center/
+
+# Private reference materials from the source workspace
+../build-your-own-dashboard-guide.html
+../build-your-own-dashboard-prompt.md

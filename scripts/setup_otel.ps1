@@ -1,0 +1,7 @@
+Write-Host "Codex Control Center OTel setup"
+Write-Host "This helper prints the config block only. Review it before editing ~/.codex/config.toml."
+Write-Host ""
+Write-Host "[otel]"
+Write-Host "environment = `"local`""
+Write-Host "log_user_prompt = false"
+Write-Host "exporter = { otlp-http = { endpoint = `"http://127.0.0.1:8765/v1/logs`", protocol = `"json`" } }"

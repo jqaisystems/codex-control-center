@@ -1,0 +1,5 @@
+{"timestamp":"2026-06-03T12:00:00Z","type":"session_meta","payload":{"id":"demo-session-0001","cwd":"C:\\Users\\Example\\Projects\\demo-app","source":"cli"}}
+{"timestamp":"2026-06-03T12:00:01Z","type":"turn_context","payload":{"cwd":"C:\\Users\\Example\\Projects\\demo-app","model":"gpt-5-codex","approval_policy":"never"}}
+{"timestamp":"2026-06-03T12:00:02Z","type":"response_item","payload":{"type":"function_call","call_id":"call-1","name":"shell_command","arguments":"[redacted fake fixture]"}}
+{"timestamp":"2026-06-03T12:00:03Z","type":"response_item","payload":{"type":"function_call_output","call_id":"call-1","output":"[redacted fake fixture]"}}
+{"timestamp":"2026-06-03T12:00:04Z","type":"event_msg","payload":{"type":"token_count","info":{"total_token_usage":{"input_tokens":1200,"cached_input_tokens":200,"output_tokens":180,"reasoning_output_tokens":40,"total_tokens":1380}},"rate_limits":{"limit_id":"codex","plan_type":"example","primary":{"used_percent":55.0,"window_minutes":300,"resets_at":1780486936},"secondary":{"used_percent":25.0,"window_minutes":10080,"resets_at":1780859825},"rate_limit_reached_type":null}}}
