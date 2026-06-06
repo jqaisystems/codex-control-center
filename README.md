@@ -29,6 +29,15 @@ private paths. The included demo music is owner-created by JQAI Systems.
 Open the hosted demo:
 [`https://jqaisystems.github.io/codex-control-center/demo/`](https://jqaisystems.github.io/codex-control-center/demo/)
 
+## Watch
+
+- [Official Launch](https://www.youtube.com/watch?v=idyHU9XNNSA): 60-second
+  overview of Codex Control Center v0.1.0.
+- [Step-by-Step Tutorial](https://www.youtube.com/watch?v=5BC9uaomqr0): safe
+  setup and usage walkthrough.
+- [Full Browser Walkthrough](https://www.youtube.com/watch?v=_4W7F5A2NlE):
+  browser tour of the dashboard, tasks, reports, skills, and publish checks.
+
 Companion video scripts, storyboards, and HyperFrames source projects live in
 [`docs/video/`](docs/video/) for the launch presentation, practical tutorial,
 and browser walkthrough. Rendered MP4 drafts stay local in `video-output/`

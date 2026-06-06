@@ -5,6 +5,13 @@ Center videos.
 
 ## Videos
 
+- Hosted launch video:
+  [Codex Control Center v0.1.0 - Official Launch](https://www.youtube.com/watch?v=idyHU9XNNSA)
+- Hosted tutorial:
+  [Codex Control Center Tutorial v0.1.0](https://www.youtube.com/watch?v=5BC9uaomqr0)
+- Hosted browser walkthrough:
+  [Codex Control Center: Full Browser Walkthrough v0.1.0](https://www.youtube.com/watch?v=_4W7F5A2NlE)
+
 - `scripts/launch-presentation.md`: 45-60 second overview for GitHub, YouTube,
   LinkedIn, and release notes.
 - `scripts/tutorial.md`: 3-4 minute practical install and safe-use tutorial.
