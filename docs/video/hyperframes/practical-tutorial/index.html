@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background-color: #050810;
+        color: #f8fbff;
+        font-family: sans-serif;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background-color: #050810;
+      }
+
+      .grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(122, 167, 255, 0.055) 1px, rgba(5, 8, 16, 0) 1px),
+          linear-gradient(90deg, rgba(122, 167, 255, 0.055) 1px, rgba(5, 8, 16, 0) 1px);
+        background-size: 72px 72px;
+        opacity: 0.52;
+      }
+
+      .brand {
+        position: absolute;
+        z-index: 20;
+        top: 42px;
+        left: 54px;
+        width: 242px;
+        height: auto;
+      }
+
+      .safe-tag {
+        position: absolute;
+        z-index: 20;
+        top: 52px;
+        right: 58px;
+        padding: 13px 18px;
+        border: 1px solid #1f2a3a;
+        border-radius: 999px;
+        background-color: rgba(15, 23, 36, 0.82);
+        color: #aab7c8;
+        font-family: monospace;
+        font-size: 20px;
+      }
+
+      .progress {
+        position: absolute;
+        z-index: 21;
+        left: 54px;
+        bottom: 42px;
+        width: 288px;
+        height: 8px;
+        overflow: hidden;
+        border-radius: 999px;
+        background-color: rgba(170, 183, 200, 0.16);
+      }
+
+      .progress-fill {
+        width: 100%;
+        height: 100%;
+        transform-origin: left center;
+        transform: scaleX(0);
+        background-color: #18c6d4;
+      }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+        gap: 60px;
+        align-items: center;
+        padding: 140px 112px 118px;
+        opacity: 0;
+      }
+
+      #s1 {
+        opacity: 1;
+      }
+
+      .scene.center {
+        grid-template-columns: minmax(0, 1fr);
+        text-align: center;
+        justify-items: center;
+      }
+
+      .scene.center .copy,
+      .scene.center .end-card {
+        width: 100%;
+        align-items: center;
+      }
+
+      .scene.center .eyebrow {
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .scene.center p {
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .copy {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .eyebrow {
+        width: max-content;
+        max-width: 100%;
+        padding: 10px 15px;
+        border: 1px solid rgba(24, 198, 212, 0.42);
+        border-radius: 999px;
+        color: #18c6d4;
+        background-color: rgba(24, 198, 212, 0.08);
+        font-family: monospace;
+        font-size: 22px;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        max-width: 780px;
+        color: #f8fbff;
+        font-size: 76px;
+        line-height: 1;
+        letter-spacing: 0.01em;
+        font-weight: 800;
+      }
+
+      .center h1,
+      .center h2 {
+        max-width: 1180px;
+        font-size: 92px;
+      }
+
+      p {
+        margin: 0;
+        max-width: 760px;
+        color: #c4cfdd;
+        font-size: 29px;
+        line-height: 1.36;
+        font-weight: 350;
+      }
+
+      .accent {
+        color: #18c6d4;
+      }
+
+      .visual,
+      .code-card,
+      .checklist {
+        min-width: 0;
+        border: 1px solid #1f2a3a;
+        border-radius: 18px;
+        background-color: rgba(15, 23, 36, 0.9);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+        overflow: hidden;
+      }
+
+      .window-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 58px;
+        padding: 0 22px;
+        border-bottom: 1px solid #1f2a3a;
+        color: #aab7c8;
+        font-family: monospace;
+        font-size: 18px;
+      }
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background-color: #18c6d4;
+        opacity: 0.82;
+      }
+
+      .screenshot {
+        display: block;
+        width: 100%;
+        height: 515px;
+        object-fit: cover;
+        object-position: top left;
+      }
+
+      .code-card {
+        padding: 36px;
+        font-family: monospace;
+      }
+
+      .prompt {
+        color: #18c6d4;
+        font-size: 25px;
+      }
+
+      code {
+        display: block;
+        margin-top: 18px;
+        padding: 22px;
+        border: 1px solid rgba(122, 167, 255, 0.24);
+        border-radius: 14px;
+        background-color: rgba(5, 8, 16, 0.72);
+        color: #f8fbff;
+        font-size: 28px;
+        line-height: 1.48;
+        white-space: pre-wrap;
+        font-variant-ligatures: none;
+      }
+
+      .checklist {
+        padding: 34px;
+      }
+
+      .check {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 17px 0;
+        border-bottom: 1px solid rgba(170, 183, 200, 0.12);
+        color: #d7e0ec;
+        font-size: 27px;
+      }
+
+      .check::before {
+        content: "";
+        width: 18px;
+        height: 18px;
+        flex: 0 0 18px;
+        border-radius: 6px;
+        background-color: #18c6d4;
+        box-shadow: 0 0 18px rgba(24, 198, 212, 0.32);
+      }
+
+      .caption {
+        position: absolute;
+        left: 220px;
+        right: 220px;
+        bottom: 64px;
+        z-index: 12;
+        min-height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 28px;
+        border: 1px solid rgba(248, 251, 255, 0.12);
+        border-radius: 18px;
+        background-color: rgba(5, 8, 16, 0.82);
+        color: #f8fbff;
+        font-size: 32px;
+        line-height: 1.18;
+        text-align: center;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      }
+
+      .end-card {
+        width: 100%;
+        max-width: 1240px;
+        padding: 54px;
+        border: 1px solid #1f2a3a;
+        border-radius: 22px;
+        background-color: rgba(15, 23, 36, 0.9);
+      }
+
+      .repo {
+        margin-top: 28px;
+        color: #18c6d4;
+        font-family: monospace;
+        font-size: 34px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="225"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div class="grid"></div>
+      <img class="brand" src="assets/jqai-horizontal-reversed.svg" alt="JQAI Systems" />
+      <div class="safe-tag">tutorial draft</div>
+      <div class="progress"><div class="progress-fill"></div></div>
+
+      <section id="s1" class="scene center">
+        <div class="copy">
+          <div class="eyebrow">safe first workflow</div>
+          <h1>Install, observe, queue safely</h1>
+          <p>Run Codex Control Center and use read-only tasks before anything edits files.</p>
+        </div>
+        <div class="caption">Install, observe, queue safely</div>
+      </section>
+
+      <section id="s2" class="scene">
+        <div class="copy">
+          <div class="eyebrow">step 1</div>
+          <h2>Clone the public repo</h2>
+          <p>Start from the published source package and keep the demo clean.</p>
+        </div>
+        <div class="code-card">
+          <div class="prompt">PowerShell</div>
+          <code>git clone https://github.com/jqaisystems/codex-control-center.git
+cd codex-control-center</code>
+        </div>
+        <div class="caption">Clone the public repo</div>
+      </section>
+
+      <section id="s3" class="scene">
+        <div class="copy">
+          <div class="eyebrow">step 2</div>
+          <h2>Run the Windows launcher</h2>
+          <p>The app starts locally on 127.0.0.1 and prepares the backend and UI.</p>
+        </div>
+        <div class="code-card">
+          <div class="prompt">PowerShell</div>
+          <code>.\start-control-center.ps1</code>
+          <div class="check">Backend starts on 127.0.0.1:8765</div>
+          <div class="check">Browser opens automatically</div>
+        </div>
+        <div class="caption">Runs locally on 127.0.0.1:8765</div>
+      </section>
+
+      <section id="s4" class="scene">
+        <div class="copy">
+          <div class="eyebrow">safety model</div>
+          <h2>Observe Mode and Control Mode</h2>
+          <p>Observation reads local metadata. Control uses local Codex CLI only after approval.</p>
+        </div>
+        <div class="checklist">
+          <div class="check">No API key required for local observation</div>
+          <div class="check">No Codex auth files are read</div>
+          <div class="check">No raw prompts or outputs by default</div>
+          <div class="check">Approved tasks launch through Codex CLI</div>
+        </div>
+        <div class="caption">Observe Mode does not call OpenAI</div>
+      </section>
+
+      <section id="s5" class="scene">
+        <div class="copy">
+          <div class="eyebrow">dashboard</div>
+          <h2>Read the overview first</h2>
+          <p>Use mode, usage, readiness, and weekly session grouping to understand local activity.</p>
+        </div>
+        <div class="visual">
+          <div class="window-bar"><span class="dot"></span><span>dashboard.png</span></div>
+          <img class="screenshot" src="assets/dashboard.png" alt="Dashboard screenshot" />
+        </div>
+        <div class="caption">Dashboard: health, usage, readiness, sessions</div>
+      </section>
+
+      <section id="s6" class="scene">
+        <div class="copy">
+          <div class="eyebrow">tasks</div>
+          <h2>Choose one workspace, then start read-only</h2>
+          <p>Pick a Safe Starter Task, queue it, and approve only after reviewing the sandbox.</p>
+        </div>
+        <div class="visual">
+          <div class="window-bar"><span class="dot"></span><span>tasks.png</span></div>
+          <img class="screenshot" src="assets/tasks.png" alt="Tasks screenshot" />
+        </div>
+        <div class="caption">Read-only first. Approval required.</div>
+      </section>
+
+      <section id="s7" class="scene">
+        <div class="copy">
+          <div class="eyebrow">review</div>
+          <h2>Review results and publish readiness</h2>
+          <p>Results are safe summaries. Publish Readiness checks before sharing and does not publish anything.</p>
+        </div>
+        <div class="visual">
+          <div class="window-bar"><span class="dot"></span><span>results.png</span></div>
+          <img class="screenshot" src="assets/results.png" alt="Results screenshot" />
+        </div>
+        <div class="caption">Safe summaries, not raw logs</div>
+      </section>
+
+      <section id="s8" class="scene center">
+        <div class="end-card">
+          <div class="eyebrow">safe checklist</div>
+          <h2>Observe locally. Start read-only. Share after checks.</h2>
+          <p>Codex Control Center keeps V1 simple: metadata-only observation and approval-gated control.</p>
+          <div class="repo">github.com/jqaisystems/codex-control-center</div>
+        </div>
+        <div class="caption">Local-first. Metadata-only. Approval-gated.</div>
+      </section>
+
+      <audio
+        id="narration"
+        data-start="0"
+        data-duration="225"
+        data-track-index="5"
+        src="assets/tutorial-narration.wav"
+        data-volume="0.95"
+      ></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      tl.set(".scene:not(#s1)", { opacity: 0, x: 0, filter: "blur(0px)" }, 0);
+      tl.set("#s1", { opacity: 1 }, 0);
+      tl.from(".brand", { opacity: 0, y: -14, duration: 0.45, ease: "power2.out" }, 0.15);
+      tl.from(".safe-tag", { opacity: 0, y: -10, duration: 0.4, ease: "sine.out" }, 0.25);
+      tl.to(".progress-fill", { scaleX: 1, duration: 225, ease: "none" }, 0);
+
+      function fromIf(selector, vars, at) {
+        if (document.querySelector(selector)) {
+          tl.from(selector, vars, at);
+        }
+      }
+
+      function enter(id, at) {
+        fromIf("#" + id + " .eyebrow", { opacity: 0, y: 18, duration: 0.42, ease: "power3.out" }, at);
+        fromIf("#" + id + " h1, #" + id + " h2", { opacity: 0, y: 34, scale: 0.98, duration: 0.58, ease: "expo.out" }, at + 0.08);
+        fromIf("#" + id + " p", { opacity: 0, y: 24, duration: 0.48, ease: "power2.out" }, at + 0.2);
+        fromIf("#" + id + " .visual, #" + id + " .code-card, #" + id + " .checklist, #" + id + " .end-card", { opacity: 0, x: 42, scale: 0.985, duration: 0.56, ease: "power3.out" }, at + 0.18);
+        fromIf("#" + id + " .check", { opacity: 0, x: 24, duration: 0.36, stagger: 0.07, ease: "power2.out" }, at + 0.36);
+        fromIf("#" + id + " .caption", { opacity: 0, y: 18, duration: 0.42, ease: "sine.out" }, at + 0.28);
+      }
+
+      function transition(fromId, toId, at) {
+        tl.set("#" + toId, { opacity: 1, x: 56, filter: "blur(8px)" }, at);
+        tl.to("#" + fromId, { opacity: 0, x: -50, filter: "blur(8px)", duration: 0.55, ease: "power2.inOut" }, at);
+        tl.to("#" + toId, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.55, ease: "power2.inOut" }, at);
+        enter(toId, at + 0.18);
+      }
+
+      enter("s1", 0.35);
+      transition("s1", "s2", 18.0);
+      transition("s2", "s3", 46.0);
+      transition("s3", "s4", 76.0);
+      transition("s4", "s5", 109.0);
+      transition("s5", "s6", 144.0);
+      transition("s6", "s7", 182.0);
+      transition("s7", "s8", 212.0);
+      tl.to(["#s8", ".brand", ".safe-tag", ".progress"], { opacity: 0, duration: 0.7, ease: "sine.inOut" }, 224.0);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+This is Codex Control Center as a local browser workflow: observe first, choose one workspace, queue read-only work, then review before sharing.
+
+Start on the Dashboard. System Mode controls how active the dashboard should be, Usage Remaining is best-effort local metadata, and Readiness Score explains the setup and selected workspace health.
+
+Open Tasks. Register only the folder you want inspected, use a Safe Starter Task, keep the sandbox read-only, and queue the task for approval.
+
+After a task completes, Results gives safe summaries, duration, tool counts, token metadata when available, and suggested next read-only follow-up tasks.
+
+Vault Health Report explains the readiness findings with safe relative paths by default. Full local paths stay hidden unless the user explicitly reveals them.
+
+The Skills page shows discovered skills and plugin-provided skills with safe labels. Path reveal is available, but this public demo keeps full paths hidden.
+
+Before sharing, Publish Readiness checks docs, fixtures, ignore coverage, Git review state, and the public safety scan. It does not publish, commit, stage, push, upload, or contact GitHub.
+
+That is the safe loop: observe locally, launch deliberately, review results, and share only after the checks are ready.

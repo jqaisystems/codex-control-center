@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codex Control Center Interactive Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary-dark:#060b13;
+  --primary-dark-light:#0e1726;
+  --accent:#16c9d2;
+  --accent-light:#64e9ef;
+  --accent-glow:rgba(22,201,210,.28);
+  --blue:#5b8cff;
+  --green:#26d07c;
+  --yellow:#f2b84b;
+  --red:#ff5d79;
+  --bg-light:#111722;
+  --bg-light-dark:#0b1018;
+  --panel:#151b27;
+  --panel-soft:#1b2230;
+  --border:#263144;
+  --text:#f8fbff;
+  --text-light:#9fb0c8;
+  --muted:#64748b;
+  --scale:0.82;
+  --mobile-bar-h:74px;
+  --tap-target:44px;
+  --font-serif:Inter,system-ui,sans-serif;
+  --font-sans:Inter,system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",Consolas,monospace;
+}
+html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-sans);background:#000;color:var(--text)}
+button{font-family:inherit}
+
+/* ===== INTRO ===== */
+.intro-screen{position:fixed;inset:0;z-index:1000;background:radial-gradient(circle at 20% 10%,rgba(22,201,210,.18),transparent 34%),linear-gradient(145deg,#030712,#0b1020 60%,#07131a);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px;transition:opacity .8s}
+.intro-screen.fade-out{opacity:0;pointer-events:none}
+.brand-mark{display:flex;align-items:center;justify-content:center;margin-bottom:22px;opacity:1;animation:fadeUp .5s forwards}
+.brand-logo{width:min(340px,72vw);height:auto;display:block;filter:drop-shadow(0 18px 60px rgba(22,201,210,.16))}
+.intro-logo{font-size:clamp(38px,6vw,72px);line-height:.96;color:#fff;font-weight:900;letter-spacing:0;max-width:940px;opacity:1;animation:fadeUp .55s .08s both}
+.intro-logo .accent{color:var(--accent-light)}
+.intro-sub{color:var(--text-light);font-size:15px;margin-top:16px;opacity:1;animation:fadeUp .55s .16s both}
+.intro-tagline{color:rgba(255,255,255,.74);font-size:clamp(15px,2.2vw,20px);margin-top:24px;max-width:720px;line-height:1.55;opacity:1;animation:fadeUp .55s .24s both}
+.intro-start{margin-top:38px;padding:14px 36px;background:linear-gradient(135deg,var(--accent),#5b8cff);border:0;color:#051019;font-size:15px;font-weight:800;border-radius:10px;cursor:pointer;transition:transform .25s,box-shadow .25s;opacity:1;animation:fadeUp .55s .32s both;box-shadow:0 20px 60px rgba(22,201,210,.22)}
+.intro-start:hover{transform:translateY(-2px);box-shadow:0 26px 70px rgba(22,201,210,.32)}
+.intro-start:focus-visible{outline:2px solid var(--accent-light);outline-offset:4px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== LAYOUT ===== */
+.demo-layout{position:fixed;inset:0;display:grid;grid-template-columns:minmax(0,1fr) 360px;opacity:0;pointer-events:none;transition:opacity .5s;background:#050911}
+.demo-layout.visible{opacity:1;pointer-events:auto}
+.dashboard-area{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 8%,rgba(22,201,210,.13),transparent 35%),linear-gradient(135deg,#050911,#0c1422);overflow:hidden;height:100vh;height:100dvh}
+.dashboard-frame{width:1280px;height:860px;transform:scale(var(--scale));transform-origin:center center;background:var(--bg-light-dark);border:1px solid #1b2b41;border-radius:14px;position:relative;overflow:hidden;box-shadow:0 22px 90px rgba(0,0,0,.56);transition:opacity .6s}
+
+/* ===== NAVBAR ===== */
+.nav{height:54px;background:#0a0f18;border-bottom:1px solid #202b3a;display:flex;align-items:center;padding:0 22px;gap:22px}
+.nav-brand{display:flex;align-items:center;gap:12px;min-width:315px}
+.nav-logo{width:145px;height:auto;display:block}
+.nav-name{color:#fff;font-size:13px;font-weight:800}
+.nav-app{display:block;color:var(--text-light);font-size:11px;font-weight:500;margin-top:1px}
+.nav-tabs{display:flex;gap:6px;margin-left:auto}
+.nav-tab{color:rgba(255,255,255,.62);font-size:13px;padding:10px 14px;border-radius:8px;cursor:pointer;transition:all .2s;background:transparent;border:0}
+.nav-tab.active{color:#fff;background:#1c2433}
+.nav-tab:hover{color:#fff;background:#151d2b}
+
+/* ===== TAB CONTENT ===== */
+.tab-content{position:relative;height:calc(100% - 54px);overflow:hidden}
+.tab-pane{position:absolute;inset:0;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .35s,transform .35s;overflow:hidden;padding:24px}
+.tab-pane.active{opacity:1;transform:translateY(0);pointer-events:auto}
+
+/* ===== PRODUCT UI ===== */
+.grid{display:grid;gap:18px}
+.dash-grid{grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto 1fr}
+.metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;grid-column:1 / -1}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,.16);overflow:hidden}
+.card-head{height:46px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding:0 16px;font-size:14px;font-weight:800;color:#fff}
+.card-body{padding:16px}
+.metric{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:15px}
+.metric-label{font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.metric-value{font-size:30px;font-weight:900;color:#fff;line-height:1}
+.metric-note{font-size:12px;color:var(--text-light);margin-top:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #2f3b50;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:700;color:var(--text-light);background:#111827}
+.pill.ok{border-color:rgba(38,208,124,.35);color:#9df7c7;background:rgba(38,208,124,.09)}
+.pill.warn{border-color:rgba(242,184,75,.45);color:#ffe0a2;background:rgba(242,184,75,.09)}
+.pill.bad{border-color:rgba(255,93,121,.45);color:#ffb2c0;background:rgba(255,93,121,.09)}
+.pill.blue{border-color:rgba(91,140,255,.35);color:#bfd1ff;background:rgba(91,140,255,.1)}
+.bar{height:8px;background:#0c111b;border-radius:999px;overflow:hidden}
+.bar span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),#5b8cff)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stack{display:grid;gap:12px}
+.readiness-score{font-size:64px;font-weight:900;line-height:.9;color:#fff}
+.finding{display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:8px;background:#111827;border:1px solid #253246}
+.finding-dot{width:9px;height:9px;border-radius:50%;margin-top:5px;background:var(--green);box-shadow:0 0 0 4px rgba(38,208,124,.12)}
+.finding.warn .finding-dot{background:var(--yellow);box-shadow:0 0 0 4px rgba(242,184,75,.12)}
+.finding.bad .finding-dot{background:var(--red);box-shadow:0 0 0 4px rgba(255,93,121,.12)}
+.finding-title{font-size:12px;font-weight:800;color:#fff}
+.finding-text{font-size:11px;color:var(--text-light);line-height:1.45;margin-top:2px}
+.usage-line{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:var(--text-light)}
+.mini-chart{height:54px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));align-items:end;gap:5px;padding:7px;background:#0e1420;border:1px solid #243044;border-radius:8px;overflow:hidden}
+.mini-chart span{display:block;min-height:4px;border-radius:4px;background:linear-gradient(180deg,#68e8ee,#4774ff)}
+.sessions{display:grid;gap:8px}
+.session-row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:9px 10px;border-radius:8px;background:#111827;border:1px solid #253246}
+.session-title{font-size:12px;color:#fff;font-weight:700}
+.session-meta{font-size:10px;color:var(--text-light);margin-top:3px}
+
+.task-layout{display:grid;grid-template-columns:340px 1fr;gap:18px}
+.form-control{background:#111827;border:1px solid #2b3648;border-radius:8px;padding:12px;color:#fff;font-size:13px}
+.template-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.template-btn,.action-btn{background:#1d2a3e;border:1px solid #33445e;color:#dce8ff;border-radius:8px;padding:10px 11px;font-size:12px;font-weight:800;text-align:left}
+.action-btn.primary{background:#3869b4;border-color:#4d83d6;color:#fff;text-align:center}
+.action-btn.danger{background:#321724;border-color:#713145;color:#ffccd5;text-align:center}
+.task-card{padding:14px;border-radius:9px;background:#1b2230;border:1px solid #334055}
+.task-title{font-size:15px;font-weight:900;color:#fff}
+.task-desc{font-size:12px;color:var(--text-light);line-height:1.55;margin-top:8px}
+.task-meta{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+.results-list,.publish-grid,.skills-grid{display:grid;gap:14px}
+.result-card{display:grid;grid-template-columns:1fr auto;gap:14px;background:#161d2a;border:1px solid #29364a;border-radius:8px;padding:14px}
+.result-title{font-size:15px;font-weight:900}
+.result-text{font-size:12px;color:var(--text-light);line-height:1.55;margin-top:7px}
+.path-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #2b3648;background:#101722;border-radius:8px;padding:10px 12px;font-size:12px}
+.safe-path{font-family:var(--font-mono);color:#cde5ff}
+.publish-banner{padding:12px 14px;border:1px solid rgba(242,184,75,.42);background:rgba(242,184,75,.08);color:#ffd995;border-radius:8px;font-size:12px;font-weight:800}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check-card{border:1px solid #2a3548;background:#141b28;border-radius:8px;padding:13px}
+.check-title{font-size:13px;font-weight:900;display:flex;justify-content:space-between;gap:10px}
+.check-text{font-size:11px;color:var(--text-light);line-height:1.45;margin-top:7px}
+
+/* ===== HIGHLIGHT RING ===== */
+.highlight-ring{position:absolute;border:2px solid var(--accent);border-radius:9px;pointer-events:none;opacity:0;transition:all .3s;z-index:90;box-shadow:0 0 0 0 var(--accent-glow)}
+.highlight-ring.show{opacity:1;animation:pulse-ring 1.5s ease-in-out infinite}
+@keyframes pulse-ring{0%{box-shadow:0 0 0 0 var(--accent-glow)}50%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
+
+/* ===== CURSOR ===== */
+.demo-cursor{position:absolute;width:22px;height:22px;z-index:100;pointer-events:none;opacity:0;transition:opacity .2s;left:640px;top:430px}
+.demo-cursor.show{opacity:1}
+.demo-cursor svg{width:100%;height:100%;filter:drop-shadow(1px 2px 4px rgba(0,0,0,.4))}
+
+/* ===== TOAST ===== */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#08101d;border:1px solid #254157;color:#fff;padding:11px 22px;border-radius:10px;font-size:13px;opacity:0;transition:all .4s;z-index:600;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ===== SIDEBAR ===== */
+.sidebar{background:var(--primary-dark);border-left:1px solid #182335;display:flex;flex-direction:column;padding:20px;overflow:hidden}
+.sidebar-caption{transition:opacity .4s ease,transform .4s ease}
+.sidebar-caption.hidden{opacity:0;transform:translateY(-8px);pointer-events:none}
+.cap-step{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-light);margin-bottom:8px}
+.cap-text{font-size:24px;font-weight:900;color:#fff;line-height:1.22;margin-bottom:10px}
+.cap-detail{font-size:12px;color:rgba(255,255,255,.62);line-height:1.62}
+.sidebar-divider{height:1px;background:rgba(255,255,255,.08);margin:18px 0}
+.tl-progress-track{height:3px;background:rgba(255,255,255,.1);border-radius:2px;margin-bottom:16px}
+.tl-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#5b8cff);border-radius:2px;width:0%;transition:width .4s}
+.sidebar-timeline{flex:1;overflow:auto;margin-bottom:12px}
+.tl-steps-v{display:flex;flex-direction:column;gap:4px}
+.tl-step-v{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;cursor:pointer;transition:background .2s;color:rgba(255,255,255,.62);font-size:12px;background:transparent;border:0;text-align:left}
+.tl-step-v:hover{background:rgba(255,255,255,.05)}
+.tl-step-v.active{background:rgba(22,201,210,.12);color:#fff}
+.tl-step-v.done{color:rgba(255,255,255,.8)}
+.tl-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.22);flex-shrink:0}
+.tl-step-v.active .tl-dot{background:var(--accent);box-shadow:0 0 0 4px var(--accent-glow)}
+.tl-step-v.done .tl-dot{background:var(--green)}
+.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ctrl{width:var(--tap-target);height:var(--tap-target);display:grid;place-items:center;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.05);color:#fff;border-radius:10px;cursor:pointer;font-size:14px}
+.ctrl:hover{background:rgba(255,255,255,.1)}
+.ctrl.active{border-color:var(--accent);color:var(--accent-light)}
+.speed{min-width:56px;font-size:12px;font-weight:800}
+.shortcut-hint{font-size:10px;color:rgba(255,255,255,.35);margin-top:10px}
+
+/* ===== MOBILE CONTROLS ===== */
+.mobile-controls{display:none;position:fixed;left:0;right:0;bottom:0;height:var(--mobile-bar-h);background:rgba(5,9,17,.96);border-top:1px solid rgba(255,255,255,.1);z-index:800;padding:10px 14px;align-items:center;justify-content:space-between;gap:10px}
+.mobile-controls .ctrl{width:46px;height:46px}
+.mobile-title{min-width:0;flex:1;text-align:center}
+.mobile-title strong{display:block;color:#fff;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mobile-title span{display:block;color:var(--text-light);font-size:10px;margin-top:3px}
+.landscape-hint{display:none;position:fixed;inset:0;z-index:2000;background:#050911;color:#fff;align-items:center;justify-content:center;text-align:center;padding:28px}
+.landscape-hint div{max-width:320px}
+.landscape-hint strong{display:block;font-size:24px;margin-bottom:10px}
+.landscape-hint span{color:var(--text-light);line-height:1.5}
+
+/* ===== ENDING ===== */
+.ending-screen{position:fixed;inset:0;z-index:950;background:radial-gradient(circle at 75% 15%,rgba(91,140,255,.18),transparent 34%),linear-gradient(145deg,#030712,#0c1422);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px;opacity:0;pointer-events:none;transition:opacity .8s}
+.ending-screen.show{opacity:1;pointer-events:auto}
+.ending-title{font-size:clamp(38px,6vw,68px);font-weight:900;line-height:1;color:#fff;max-width:850px}
+.ending-subtitle{color:var(--text-light);font-size:18px;line-height:1.55;max-width:760px;margin-top:22px}
+.ending-url{font-family:var(--font-mono);color:var(--accent-light);font-size:14px;margin-top:22px}
+.ending-actions{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap;justify-content:center}
+.ending-replay{padding:13px 26px;background:linear-gradient(135deg,var(--accent),#5b8cff);border:0;color:#06111d;font-weight:900;border-radius:10px;cursor:pointer}
+.ending-link{padding:13px 22px;background:#111827;border:1px solid #2c3b52;color:#d9e7ff;font-weight:800;border-radius:10px;text-decoration:none}
+
+@media (max-width:1100px){
+  :root{--scale:.62}
+  .demo-layout{grid-template-columns:1fr}
+  .sidebar{position:fixed;right:14px;top:14px;width:min(340px,calc(100vw - 28px));max-height:42vh;border:1px solid #203048;border-radius:14px;box-shadow:0 18px 70px rgba(0,0,0,.45);padding:16px}
+  .sidebar-timeline,.shortcut-hint{display:none}
+}
+@media (max-width:760px){
+  :root{--scale:.38}
+  .demo-layout{padding-bottom:var(--mobile-bar-h)}
+  .dashboard-area{height:calc(100vh - var(--mobile-bar-h));height:calc(100dvh - var(--mobile-bar-h))}
+  .dashboard-frame{transform:scale(var(--scale))}
+  .sidebar{left:12px;right:12px;top:12px;width:auto;max-height:190px}
+  .cap-text{font-size:18px}
+  .cap-detail{font-size:11px}
+  .controls{display:none}
+  .mobile-controls{display:flex}
+  .intro-logo{font-size:40px}
+  .brand-logo{width:min(280px,76vw)}
+}
+@media (max-width:900px) and (max-height:520px){
+  :root{--scale:.46}
+  .demo-layout{padding-bottom:var(--mobile-bar-h)}
+  .dashboard-area{height:calc(100vh - var(--mobile-bar-h));height:calc(100dvh - var(--mobile-bar-h))}
+  .dashboard-frame{transform:scale(var(--scale))}
+  .sidebar{left:auto;right:12px;top:12px;width:min(340px,calc(100vw - 24px));max-height:164px;padding:14px}
+  .cap-text{font-size:18px}
+  .cap-detail{font-size:11px}
+  .controls{display:none}
+  .mobile-controls{display:flex}
+}
+@media (orientation:portrait) and (max-width:760px){
+  .landscape-hint{display:flex}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+<div class="intro-screen" id="intro">
+  <div class="brand-mark">
+    <img class="brand-logo" src="assets/jqai-horizontal-reversed.svg" alt="JQAI Systems - think // build // automate">
+  </div>
+  <h1 class="intro-logo">Codex Control Center <span class="accent">interactive demo</span></h1>
+  <div class="intro-sub">A public-safe, self-playing HTML tour.</div>
+  <p class="intro-tagline">Watch how the local dashboard keeps observation metadata-only, tasks approval-gated, and publishing checks human-reviewed.</p>
+  <button class="intro-start" id="startBtn">Watch Demo</button>
+</div>
+
+<main class="demo-layout" id="layout">
+  <section class="dashboard-area" aria-label="Demo stage">
+    <div class="dashboard-frame" id="frame">
+      <nav class="nav" aria-label="Demo navigation">
+        <div class="nav-brand">
+          <img class="nav-logo" src="assets/jqai-horizontal-reversed.svg" alt="JQAI Systems">
+          <div>
+            <div class="nav-name">Codex Control Center</div>
+            <span class="nav-app">Local observability. Approval-gated control.</span>
+          </div>
+        </div>
+        <div class="nav-tabs">
+          <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
+          <button class="nav-tab" data-tab="tasks">Tasks</button>
+          <button class="nav-tab" data-tab="results">Results</button>
+          <button class="nav-tab" data-tab="safety">Vault Report</button>
+          <button class="nav-tab" data-tab="publish">Publish</button>
+        </div>
+      </nav>
+
+      <div class="tab-content">
+        <section class="tab-pane active" id="tab-dashboard">
+          <div class="grid dash-grid">
+            <div class="metric-row">
+              <div class="metric" id="mode-card">
+                <div class="metric-label">System Mode</div>
+                <div class="metric-value" style="font-size:24px">Balanced</div>
+                <div class="metric-note">Manual sync, safer cadence</div>
+              </div>
+              <div class="metric" id="usage-card">
+                <div class="metric-label">Usage Remaining</div>
+                <div class="metric-value">68%</div>
+                <div class="metric-note">Best-effort local metadata</div>
+              </div>
+              <div class="metric" id="tokens-card">
+                <div class="metric-label">Control Center Tokens</div>
+                <div class="metric-value">3.2K</div>
+                <div class="metric-note">Dashboard-launched tasks only</div>
+              </div>
+              <div class="metric" id="today-card">
+                <div class="metric-label">Today Activity</div>
+                <div class="metric-value">2</div>
+                <div class="metric-note">Sessions from local files</div>
+              </div>
+            </div>
+
+            <div class="card" id="usage-detail">
+              <div class="card-head">Usage Remaining <span class="pill blue">Refresh</span></div>
+              <div class="card-body stack">
+                <div class="usage-line"><span>Primary</span><strong>68% remaining</strong></div>
+                <div class="bar"><span style="width:68%"></span></div>
+                <div class="usage-line"><span>Weekly</span><strong>76% remaining</strong></div>
+                <div class="bar"><span style="width:76%"></span></div>
+                <div class="mini-chart" aria-label="30 day usage trend">
+                  <span style="height:32%"></span><span style="height:42%"></span><span style="height:37%"></span><span style="height:48%"></span><span style="height:45%"></span><span style="height:52%"></span><span style="height:61%"></span><span style="height:55%"></span><span style="height:64%"></span><span style="height:58%"></span><span style="height:69%"></span><span style="height:62%"></span>
+                </div>
+                <span class="pill ok">Fresh local observation</span>
+              </div>
+            </div>
+
+            <div class="card" id="readiness-card">
+              <div class="card-head">Readiness Score <span class="pill warn">View full report</span></div>
+              <div class="card-body two-col">
+                <div>
+                  <div class="readiness-score">84</div>
+                  <div class="metric-note">DemoVault#e65cc2</div>
+                </div>
+                <div class="stack">
+                  <div class="finding"><span class="finding-dot"></span><div><div class="finding-title">Local-only setup</div><div class="finding-text">No API key required for observation.</div></div></div>
+                  <div class="finding warn"><span class="finding-dot"></span><div><div class="finding-title">Docs can improve</div><div class="finding-text">Add project guidance for repeat tasks.</div></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" id="health-card">
+              <div class="card-head">System Health <span class="pill ok">Online</span></div>
+              <div class="card-body stack">
+                <div class="finding"><span class="finding-dot"></span><div><div class="finding-title">127.0.0.1 only</div><div class="finding-text">Backend binds to local loopback.</div></div></div>
+                <div class="finding"><span class="finding-dot"></span><div><div class="finding-title">Auth boundary</div><div class="finding-text">The dashboard does not read auth token files.</div></div></div>
+                <div class="finding"><span class="finding-dot"></span><div><div class="finding-title">Codex CLI</div><div class="finding-text">Control Mode uses local codex exec.</div></div></div>
+              </div>
+            </div>
+
+            <div class="card" id="sessions-card" style="grid-column:1 / -1">
+              <div class="card-head">Recent Sessions <span class="pill blue">Grouped by week</span></div>
+              <div class="card-body sessions">
+                <div class="session-row"><div><div class="session-title">Week of Jun 1, 2026</div><div class="session-meta">DemoVault#e65cc2 · public-safe metadata</div></div><span class="pill ok">done</span><strong>2.1K</strong></div>
+                <div class="session-row"><div><div class="session-title">Safe workspace audit</div><div class="session-meta">read-only · 12 tools · 1m 24s</div></div><span class="pill ok">done</span><strong>1.1K</strong></div>
+                <div class="session-row"><div><div class="session-title">Docs gap scan</div><div class="session-meta">read-only · 5 tools · 42s</div></div><span class="pill ok">done</span><strong>840</strong></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-pane" id="tab-tasks">
+          <div class="task-layout">
+            <div class="card" id="queue-card">
+              <div class="card-head">Queue Task <span class="pill ok">read-only</span></div>
+              <div class="card-body stack">
+                <select class="form-control" id="workspace-select" aria-label="Workspace">
+                  <option>DemoVault#e65cc2</option>
+                </select>
+                <input class="form-control" value="Full safe workspace audit" aria-label="Task title">
+                <textarea class="form-control" rows="7" aria-label="Task details">Inspect the selected workspace in read-only mode. Do not edit files, read secrets, or include full local paths.</textarea>
+                <button class="action-btn primary" id="queue-button">Queue for approval</button>
+                <button class="action-btn danger" id="write-warning">workspace-write requires confirmation</button>
+              </div>
+            </div>
+            <div class="grid">
+              <div class="card" id="templates-card">
+                <div class="card-head">Safe Starter Tasks</div>
+                <div class="card-body template-grid">
+                  <button class="template-btn">Summarize public files</button>
+                  <button class="template-btn">Inspect repository structure</button>
+                  <button class="template-btn">Find documentation gaps</button>
+                  <button class="template-btn">Full safe workspace audit</button>
+                </div>
+              </div>
+              <div class="card" id="approval-card">
+                <div class="card-head">Task Board <span class="pill warn">awaiting approval</span></div>
+                <div class="card-body">
+                  <div class="task-card">
+                    <div class="task-title">Full safe workspace audit</div>
+                    <div class="task-desc">Uses the selected workspace with read-only sandbox. Raw output remains redacted by default.</div>
+                    <div class="task-meta">
+                      <span class="pill blue">DemoVault#e65cc2</span>
+                      <span class="pill ok">read-only</span>
+                      <span class="pill warn">approval required</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card" id="schedule-card">
+                <div class="card-head">Schedules <span class="pill blue">definitions only</span></div>
+                <div class="card-body">
+                  <div class="finding"><span class="finding-dot"></span><div><div class="finding-title">No unattended launches</div><div class="finding-text">Schedules materialize into approval-gated tasks.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-pane" id="tab-results">
+          <div class="grid">
+            <div class="card" id="results-card">
+              <div class="card-head">Results <span class="pill ok">metadata-only summaries</span></div>
+              <div class="card-body results-list">
+                <div class="result-card">
+                  <div>
+                    <div class="result-title">Full safe workspace audit</div>
+                    <div class="result-text">Summary completed. The workspace has clear public docs, one generated folder to keep ignored, and two suggested follow-up tasks.</div>
+                    <div class="task-meta"><span class="pill ok">completed</span><span class="pill blue">12 tools</span><span class="pill blue">1m 24s</span></div>
+                  </div>
+                  <button class="action-btn primary">Export Markdown</button>
+                </div>
+                <div class="result-card" id="followup-card">
+                  <div>
+                    <div class="result-title">Recommended next actions</div>
+                    <div class="result-text">Add a public usage note, review ignored build folders, and run Publish Readiness before sharing.</div>
+                    <div class="task-meta"><span class="pill blue">queue follow-up</span><span class="pill ok">read-only first</span></div>
+                  </div>
+                  <button class="action-btn">Create Task</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-pane" id="tab-safety">
+          <div class="grid">
+            <div class="card" id="report-card">
+              <div class="card-head">Vault Health Report <span class="pill warn">paths hidden</span></div>
+              <div class="card-body stack">
+                <div class="metric-row">
+                  <div class="metric"><div class="metric-label">Overall</div><div class="metric-value">84</div></div>
+                  <div class="metric"><div class="metric-label">Entries scanned</div><div class="metric-value">250</div></div>
+                  <div class="metric"><div class="metric-label">Needs action</div><div class="metric-value">2</div></div>
+                  <div class="metric"><div class="metric-label">Full paths</div><div class="metric-value" style="font-size:24px">Hidden</div></div>
+                </div>
+                <div class="path-row" id="safe-relative-path">
+                  <span><strong>Secret-like filename</strong><br><span class="safe-path">config/.env.example</span></span>
+                  <span class="pill ok">safe fixture</span>
+                </div>
+                <div class="path-row">
+                  <span><strong>Generated dependency folder</strong><br><span class="safe-path">ui/node_modules</span></span>
+                  <span class="pill warn">keep ignored</span>
+                </div>
+                <div class="finding"><span class="finding-dot"></span><div><div class="finding-title">Report uses filenames only</div><div class="finding-text">No file contents, prompts, logs, databases, or raw sessions are read.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-pane" id="tab-publish">
+          <div class="grid">
+            <div class="publish-banner" id="publish-banner">This page does not publish, commit, stage, push, upload, or contact GitHub. It only reads local safety signals for human review.</div>
+            <div class="two-col">
+              <div class="card" id="publish-verdict">
+                <div class="card-head">Package Verdict <span class="pill ok">Ready</span></div>
+                <div class="card-body">
+                  <div class="readiness-score" style="font-size:48px">READY</div>
+                  <div class="metric-note">Safety scan completed with fake fixtures only.</div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-head">Local Evidence</div>
+                <div class="card-body two-col">
+                  <div class="metric"><div class="metric-label">Safety scan</div><div class="metric-value" style="font-size:26px">READY</div></div>
+                  <div class="metric"><div class="metric-label">Publish action</div><div class="metric-value" style="font-size:24px">Disabled</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="card" id="checklist-card">
+              <div class="card-head">Checklist</div>
+              <div class="card-body check-grid">
+                <div class="check-card"><div class="check-title">README positioning <span class="pill ok">OK</span></div><div class="check-text">States no API key is required for local observation.</div></div>
+                <div class="check-card"><div class="check-title">Windows-first setup <span class="pill ok">OK</span></div><div class="check-text">Launcher and docs are tested on Windows 11.</div></div>
+                <div class="check-card"><div class="check-title">Runtime artifacts <span class="pill ok">OK</span></div><div class="check-text">Builds, databases, logs, and generated videos stay local.</div></div>
+                <div class="check-card"><div class="check-title">Human approval <span class="pill ok">OK</span></div><div class="check-text">Publishing is never automatic from this dashboard.</div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="highlight-ring" id="highlight"></div>
+      <div class="demo-cursor" id="cursor" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M5 3l13 12-7 1.2L8.7 22 5 3z" fill="#fff" stroke="#051019" stroke-width="1.2"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <aside class="sidebar" aria-label="Demo controls">
+    <div class="sidebar-caption" id="captionBox">
+      <div class="cap-step" id="capStep">Step 1 of 8</div>
+      <div class="cap-text" id="capText">Local control, safer by default</div>
+      <div class="cap-detail" id="capDetail">The demo starts with a local dashboard that observes Codex metadata without calling OpenAI.</div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="tl-progress-track"><div class="tl-progress-fill" id="progressFill"></div></div>
+    <div class="sidebar-timeline">
+      <div class="tl-steps-v" id="timeline">
+        <button class="tl-step-v active" data-step="0"><span class="tl-dot"></span><span>Dashboard overview</span></button>
+        <button class="tl-step-v" data-step="1"><span class="tl-dot"></span><span>Usage and tokens</span></button>
+        <button class="tl-step-v" data-step="2"><span class="tl-dot"></span><span>Readiness score</span></button>
+        <button class="tl-step-v" data-step="3"><span class="tl-dot"></span><span>Choose workspace</span></button>
+        <button class="tl-step-v" data-step="4"><span class="tl-dot"></span><span>Safe starter tasks</span></button>
+        <button class="tl-step-v" data-step="5"><span class="tl-dot"></span><span>Approval gate</span></button>
+        <button class="tl-step-v" data-step="6"><span class="tl-dot"></span><span>Results and reports</span></button>
+        <button class="tl-step-v" data-step="7"><span class="tl-dot"></span><span>Publish readiness</span></button>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="ctrl" id="prevBtn" aria-label="Previous step">◀</button>
+      <button class="ctrl" id="pauseBtn" aria-label="Pause or play">❚❚</button>
+      <button class="ctrl" id="nextBtn" aria-label="Next step">▶</button>
+      <button class="ctrl active" id="soundBtn" aria-label="Toggle sound">♫</button>
+      <button class="ctrl speed" id="speedBtn" aria-label="Change speed">0.65x</button>
+      <button class="ctrl" id="fullBtn" aria-label="Fullscreen">⛶</button>
+    </div>
+    <div class="shortcut-hint">Space · ← → · M · S · F</div>
+  </aside>
+</main>
+
+<div class="mobile-controls">
+  <button class="ctrl" id="mPrevBtn" aria-label="Previous step">◀</button>
+  <div class="mobile-title"><strong id="mobileTitle">Dashboard overview</strong><span id="mobileSub">Step 1 of 8</span></div>
+  <button class="ctrl" id="mPauseBtn" aria-label="Pause or play">❚❚</button>
+  <button class="ctrl" id="mNextBtn" aria-label="Next step">▶</button>
+</div>
+
+<div class="landscape-hint">
+  <div><strong>Rotate for best experience</strong><span>This demo is optimized for landscape on phones, but it still works with the controls below.</span></div>
+</div>
+
+<section class="ending-screen" id="ending">
+  <div class="brand-mark" style="opacity:1;animation:none">
+    <img class="brand-logo" src="assets/jqai-horizontal-reversed.svg" alt="JQAI Systems - think // build // automate">
+  </div>
+  <h2 class="ending-title">Codex Control Center is local-first, approval-gated, and public-safe.</h2>
+  <p class="ending-subtitle">Use this interactive demo to present the V1 flow without showing private vault data, prompts, account details, raw logs, or local paths.</p>
+  <div class="ending-url">github.com/jqaisystems/codex-control-center</div>
+  <div class="ending-actions">
+    <button class="ending-replay" id="replayBtn">Replay</button>
+    <a class="ending-link" href="../README.md">Read project README</a>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+<audio id="demoMusic" src="Aquatic Reverie - Dreamlike Piano by the Deep.mp3" preload="auto"></audio>
+
+<script>
+const TOTAL_STEPS=8;
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let currentStep=0,runId=0,playing=false,paused=false,muted=false,speed=.65,musicFade=null,touchStartX=0;
+
+const $=sel=>document.querySelector(sel);
+const $$=sel=>Array.from(document.querySelectorAll(sel));
+const wait=(ms,id)=>new Promise(resolve=>setTimeout(resolve,(reducedMotion?80:ms)/speed)).then(()=>{if(dead(id))throw new Error('dead')});
+const dead=id=>id!==runId||paused;
+const frame=$('#frame'),cursor=$('#cursor'),highlight=$('#highlight'),toast=$('#toast');
+
+function showTab(name){
+  $$('.nav-tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.tab===name));
+  $$('.tab-pane').forEach(pane=>pane.classList.toggle('active',pane.id===`tab-${name}`));
+}
+function setCaption(step,text,detail){
+  $('#capStep').textContent=step;
+  $('#capText').textContent=text;
+  $('#capDetail').textContent=detail;
+  $('#mobileTitle').textContent=text;
+  $('#mobileSub').textContent=step;
+}
+function updateTimeline(idx){
+  currentStep=idx;
+  $$('.tl-step-v').forEach((step,i)=>{
+    step.classList.toggle('active',i===idx);
+    step.classList.toggle('done',i<idx);
+  });
+  $('#progressFill').style.width=`${((idx+1)/TOTAL_STEPS)*100}%`;
+}
+function showToast(msg){
+  toast.textContent=msg;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),1600);
+}
+function getFrameRect(el){
+  const frameRect=frame.getBoundingClientRect();
+  const rect=el.getBoundingClientRect();
+  const scale=frameRect.width/1280;
+  return {
+    left:(rect.left-frameRect.left)/scale,
+    top:(rect.top-frameRect.top)/scale,
+    width:rect.width/scale,
+    height:rect.height/scale
+  };
+}
+function getCenter(el){
+  const r=getFrameRect(el);
+  return {x:r.left+r.width/2,y:r.top+r.height/2};
+}
+function showHighlight(el){
+  const r=getFrameRect(el);
+  highlight.style.left=`${r.left-7}px`;
+  highlight.style.top=`${r.top-7}px`;
+  highlight.style.width=`${r.width+14}px`;
+  highlight.style.height=`${r.height+14}px`;
+  highlight.classList.add('show');
+}
+function hideHighlight(){highlight.classList.remove('show')}
+async function moveCursor(x,y,dur,id){
+  cursor.classList.add('show');
+  cursor.style.transition=`left ${dur/speed}ms cubic-bezier(.2,.8,.2,1), top ${dur/speed}ms cubic-bezier(.2,.8,.2,1), opacity .2s`;
+  cursor.style.left=`${x}px`;
+  cursor.style.top=`${y}px`;
+  await wait(dur,id);
+}
+function hideCursor(){cursor.classList.remove('show')}
+function resetAllUI(){
+  showTab('dashboard');
+  hideHighlight();
+  hideCursor();
+  toast.classList.remove('show');
+}
+
+async function step0(id){
+  resetAllUI();showTab('dashboard');updateTimeline(0);
+  setCaption('Step 1 of 8','Local dashboard overview','Observe Mode reads safe local metadata and keeps the app bound to 127.0.0.1.');
+  await wait(700,id);if(dead(id))return;
+  const el=$('#mode-card');await moveCursor(...Object.values(getCenter(el)),520,id);if(dead(id))return;
+  showHighlight(el);showToast('Observe Mode does not call OpenAI');
+  await wait(1250,id);if(dead(id))return;hideHighlight();hideCursor();
+}
+async function step1(id){
+  showTab('dashboard');updateTimeline(1);
+  setCaption('Step 2 of 8','Usage without scraping','Usage Remaining and Control Center Tokens are separate, local-only signals.');
+  await wait(500,id);if(dead(id))return;
+  const el=$('#usage-detail');await moveCursor(...Object.values(getCenter(el)),520,id);if(dead(id))return;
+  showHighlight(el);showToast('Best-effort local session metadata');
+  await wait(1350,id);if(dead(id))return;hideHighlight();hideCursor();
+}
+async function step2(id){
+  showTab('dashboard');updateTimeline(2);
+  setCaption('Step 3 of 8','Explain readiness before action','The Readiness Score summarizes safety-first checks for the system and selected workspace.');
+  await wait(500,id);if(dead(id))return;
+  const el=$('#readiness-card');await moveCursor(...Object.values(getCenter(el)),520,id);if(dead(id))return;
+  showHighlight(el);showToast('Scores are metadata-only and local');
+  await wait(1350,id);if(dead(id))return;hideHighlight();hideCursor();
+}
+async function step3(id){
+  showTab('tasks');updateTimeline(3);
+  setCaption('Step 4 of 8','Choose the workspace intentionally','Tasks use a selected workspace label, while full folder paths stay private by default.');
+  await wait(600,id);if(dead(id))return;
+  const el=$('#workspace-select');await moveCursor(...Object.values(getCenter(el)),520,id);if(dead(id))return;
+  showHighlight(el);showToast('Safe label only: DemoVault#e65cc2');
+  await wait(1250,id);if(dead(id))return;hideHighlight();hideCursor();
+}
+async function step4(id){
+  showTab('tasks');updateTimeline(4);
+  setCaption('Step 5 of 8','Start from safe templates','Starter tasks help beginners ask for useful read-only work without pasting secrets.');
+  await wait(500,id);if(dead(id))return;
+  const el=$('#templates-card');await moveCursor(...Object.values(getCenter(el)),520,id);if(dead(id))return;
+  showHighlight(el);showToast('Templates reset sandbox to read-only');
+  await wait(1350,id);if(dead(id))return;hideHighlight();hideCursor();
+}
+async function step5(id){
+  showTab('tasks');updateTimeline(5);
+  setCaption('Step 6 of 8','Approval gate before Codex runs','Queued tasks wait for approval. Workspace-write stays visibly harder to select.');
+  await wait(500,id);if(dead(id))return;
+  const el=$('#approval-card');await moveCursor(...Object.values(getCenter(el)),520,id);if(dead(id))return;
+  showHighlight(el);showToast('No danger-full-access in V1');
+  await wait(1350,id);if(dead(id))return;hideHighlight();hideCursor();
+}
+async function step6(id){
+  showTab('results');updateTimeline(6);
+  setCaption('Step 7 of 8','Review results safely','Results show summaries, durations, tool counts, and follow-up actions without raw prompts or outputs.');
+  await wait(500,id);if(dead(id))return;
+  const el=$('#results-card');await moveCursor(...Object.values(getCenter(el)),520,id);if(dead(id))return;
+  showHighlight(el);showToast('Export Markdown when ready');
+  await wait(1200,id);if(dead(id))return;
+  showTab('safety');
+  const report=$('#report-card');showHighlight(report);
+  setCaption('Step 7 of 8','Vault findings stay explainable','Vault Health Report shows relative paths by default and never reads file contents.');
+  await wait(1300,id);if(dead(id))return;hideHighlight();hideCursor();
+}
+async function step7(id){
+  showTab('publish');updateTimeline(7);
+  setCaption('Step 8 of 8','Check before publishing','Publish Readiness is a local checklist. It does not commit, push, upload, or contact GitHub.');
+  await wait(600,id);if(dead(id))return;
+  const el=$('#publish-banner');await moveCursor(...Object.values(getCenter(el)),520,id);if(dead(id))return;
+  showHighlight(el);showToast('Human approval remains required');
+  await wait(1550,id);if(dead(id))return;hideHighlight();hideCursor();
+}
+const steps=[step0,step1,step2,step3,step4,step5,step6,step7];
+
+async function runFrom(idx){
+  runId++;const id=runId;playing=true;paused=false;updatePauseButtons();
+  for(let i=idx;i<steps.length;i++){
+    try{await steps[i](id)}catch(e){return}
+    if(dead(id))return;
+    await wait(650,id).catch(()=>{});
+    if(dead(id))return;
+  }
+  playing=false;paused=false;updatePauseButtons();showEnding();
+}
+function play(){if(paused){paused=false;runFrom(currentStep);return}runFrom(currentStep)}
+function pause(){paused=true;runId++;hideCursor();hideHighlight();updatePauseButtons()}
+function togglePause(){playing&&!paused?pause():play()}
+function goStep(idx){idx=Math.max(0,Math.min(TOTAL_STEPS-1,idx));pause();currentStep=idx;runFrom(idx)}
+function updatePauseButtons(){
+  const icon=playing&&!paused?'❚❚':'▶';
+  $('#pauseBtn').textContent=icon;$('#mPauseBtn').textContent=icon;
+}
+function showEnding(){
+  $('#ending').classList.add('show');
+  stopMusic();
+}
+function hideEnding(){$('#ending').classList.remove('show')}
+
+function startMusic(){
+  if(muted)return;
+  const music=$('#demoMusic');
+  if(!music)return;
+  clearInterval(musicFade);
+  music.volume=.28;
+  music.currentTime=0;
+  music.play().catch(()=>{});
+}
+function stopMusic(){
+  const music=$('#demoMusic');
+  if(!music)return;
+  clearInterval(musicFade);
+  musicFade=setInterval(()=>{
+    music.volume=Math.max(0,music.volume-.04);
+    if(music.volume<=0){
+      clearInterval(musicFade);
+      music.pause();
+      music.currentTime=0;
+      music.volume=.28;
+    }
+  },45);
+}
+function toggleSound(){
+  muted=!muted;
+  $('#soundBtn').classList.toggle('active',!muted);
+  if(muted)stopMusic();else startMusic();
+}
+function toggleSpeed(){
+  speed=speed===.65?.85:speed===.85?1:.65;
+  $('#speedBtn').textContent=`${speed}x`;
+}
+function toggleFullscreen(){
+  if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+}
+
+$('#startBtn').addEventListener('click',()=>{
+  $('#intro').classList.add('fade-out');
+  $('#layout').classList.add('visible');
+  hideEnding();
+  startMusic();
+  setTimeout(()=>runFrom(0),450);
+});
+$('#replayBtn').addEventListener('click',()=>{
+  hideEnding();
+  $('#layout').classList.add('visible');
+  startMusic();
+  runFrom(0);
+});
+$('#prevBtn').addEventListener('click',()=>goStep(currentStep-1));
+$('#nextBtn').addEventListener('click',()=>goStep(currentStep+1));
+$('#pauseBtn').addEventListener('click',togglePause);
+$('#soundBtn').addEventListener('click',toggleSound);
+$('#speedBtn').addEventListener('click',toggleSpeed);
+$('#fullBtn').addEventListener('click',toggleFullscreen);
+$('#mPrevBtn').addEventListener('click',()=>goStep(currentStep-1));
+$('#mNextBtn').addEventListener('click',()=>goStep(currentStep+1));
+$('#mPauseBtn').addEventListener('click',togglePause);
+$$('.tl-step-v').forEach(btn=>btn.addEventListener('click',()=>goStep(Number(btn.dataset.step))));
+$$('.nav-tab').forEach(tab=>tab.addEventListener('click',()=>showTab(tab.dataset.tab)));
+
+document.addEventListener('keydown',e=>{
+  if(e.key===' '){e.preventDefault();togglePause()}
+  if(e.key==='ArrowLeft')goStep(currentStep-1);
+  if(e.key==='ArrowRight')goStep(currentStep+1);
+  if(e.key.toLowerCase()==='m')toggleSound();
+  if(e.key.toLowerCase()==='s')toggleSpeed();
+  if(e.key.toLowerCase()==='f')toggleFullscreen();
+});
+document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  if(Math.abs(dx)>70)dx<0?goStep(currentStep+1):goStep(currentStep-1);
+},{passive:true});
+</script>
+</body>
+</html>

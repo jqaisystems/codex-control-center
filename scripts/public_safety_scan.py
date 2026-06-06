@@ -32,8 +32,9 @@ ALLOWLIST = {
 
 def scan(root: Path) -> list[str]:
     findings: list[str] = []
-    skip_dirs = {"node_modules", ".git", ".venv", "__pycache__", "dist", ".pytest_cache", "logs"}
+    skip_dirs = {"node_modules", ".git", ".venv", "__pycache__", "dist", ".pytest_cache", "logs", "video-output"}
     screenshot_exts = {".png", ".jpg", ".jpeg", ".webp"}
+    demo_screenshot_names = {"dashboard.png", "tasks.png", "results.png", "skills.png", "health-report.png", "publish.png"}
     for current, dirnames, filenames in os.walk(root):
         dirnames[:] = [name for name in dirnames if name not in skip_dirs]
         for filename in filenames:
@@ -41,6 +42,16 @@ def scan(root: Path) -> list[str]:
             rel = path.relative_to(root)
             rel_posix = rel.as_posix()
             if rel_posix.startswith("docs/screenshots/") and path.suffix.lower() in screenshot_exts:
+                continue
+            if (
+                rel_posix.startswith("docs/video/hyperframes/")
+                and path.name in demo_screenshot_names
+                and path.suffix.lower() in screenshot_exts
+            ):
+                continue
+            if rel_posix.startswith("docs/video/hyperframes/") and path.suffix.lower() in {".wav", ".mp3"}:
+                continue
+            if rel_posix == "demo/Aquatic Reverie - Dreamlike Piano by the Deep.mp3":
                 continue
             if PATTERNS["private-db"].search(path.name):
                 findings.append(f"{rel}: risky database-like file")

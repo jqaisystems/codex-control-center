@@ -1,0 +1,37 @@
+In this tutorial, we will run Codex Control Center and use the safest first workflow.
+
+The goal is simple: observe local Codex metadata without needing an API key, then only launch Codex work through an approval gate.
+
+Start from the public repository. Clone it, enter the folder, and keep the demo environment clean. The tutorial uses command cards and fake screenshots, so no private browser tabs, account menus, vault contents, prompts, logs, or local paths need to appear on screen.
+
+After cloning, run the Windows launcher. The launcher prepares a local Python environment when needed, installs missing dependencies, builds the React interface when needed, starts the backend, waits for the health endpoint, and opens the browser.
+
+Everything runs on one two seven dot zero dot zero dot one, port eight seven six five. That local address matters: the dashboard is meant to be used on your own machine, not as a public hosted service.
+
+The safety model has two parts.
+
+Observe Mode reads local metadata and does not call OpenAI. It can show sessions, tool activity, usage signals, skills, readiness, and publish checks without reading Codex auth files.
+
+Control Mode is different. It uses your installed Codex CLI for dashboard-launched tasks, and only after you approve the task. If Codex is already signed in locally, Control Mode can work without asking the dashboard for an API key.
+
+On the dashboard, start with System Mode. Full keeps everything active. Balanced slows down some refreshes. Token Saver blocks task launching and keeps observation available.
+
+Usage Remaining is best-effort local metadata from Codex session files. The Codex app remains the source of truth, but the card gives helpful warnings, freshness, trend, and task advice.
+
+Readiness Score explains the local setup and the selected workspace using metadata-only checks. It can flag missing docs, missing ignore coverage, generated folders, or secret-like filenames without reading file contents.
+
+Recent Sessions are grouped by week by default, so longer histories stay organized instead of becoming one long scroll.
+
+For the first workflow, open Tasks. Register only the folder you want Codex to inspect. The app stores the real folder path locally, but the interface shows safe labels instead of full paths.
+
+Choose a Safe Starter Task, such as Full safe audit or Summarize public files. These templates give beginners a safe starting point and remind the task not to read secrets, raw logs, private prompts, or auth files.
+
+Keep the sandbox on read-only. Queue the task, review the title, details, selected workspace, and sandbox, then approve it only when it looks right. Nothing launches until that approval step.
+
+Workspace-write is for tasks that need to edit files. It is intentionally harder to select and asks for a separate confirmation. For audits, summaries, reviews, and documentation checks, stay read-only.
+
+After a task completes, open Results. Review the safe summary, duration, tool count, result category, and follow-up actions. The result view is designed for useful notes without exposing raw prompts, raw logs, full local paths, or private data.
+
+Before sharing the project, open Publish Readiness. It checks required docs, fake fixtures, ignore coverage, local artifacts, Git state, and public safety scan status. It does not publish, commit, stage, push, upload, or contact GitHub.
+
+That is the safe first workflow: observe locally, choose one workspace, start read-only, review results, and share only after the safety checks are ready.

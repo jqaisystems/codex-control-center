@@ -1,0 +1,13 @@
+{
+  "name": "browser-walkthrough",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.6.73 preview",
+    "lint": "npx --yes hyperframes@0.6.73 lint",
+    "validate": "npx --yes hyperframes@0.6.73 validate",
+    "inspect": "npx --yes hyperframes@0.6.73 inspect --samples 14",
+    "check": "npm run lint && npm run validate && npm run inspect",
+    "render": "npx --yes hyperframes@0.6.73 render . --quality draft --workers 1 --fps 30 --output ../../../../video-output/codex-control-center-browser-walkthrough-v0.1.0-draft.mp4"
+  }
+}

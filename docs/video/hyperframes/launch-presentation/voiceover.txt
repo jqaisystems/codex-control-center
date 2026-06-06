@@ -1,0 +1,15 @@
+A local Control Center for Codex.
+
+Codex is powerful, but daily work needs visibility, organization, and safer launch controls.
+
+Codex Control Center brings local metadata into one dashboard. Observation does not require an API key, and the app never reads Codex auth files.
+
+See system health, usage remaining, readiness scoring, recent sessions, and local tool activity without exposing private prompt or output content.
+
+When you launch work, every task starts in an approval queue. Read-only is the default, workspace-write is explicit, and full danger access is blocked in V1.
+
+Results stay focused on safe summaries, durations, tool counts, and next actions.
+
+Before sharing, Publish Readiness checks docs, fixtures, ignore coverage, and safety scan status. It does not publish, commit, stage, push, upload, or contact GitHub.
+
+Codex Control Center version zero point one: local observability, approval-gated control, and no API key required for local observation.

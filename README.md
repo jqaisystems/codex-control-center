@@ -19,6 +19,18 @@ These screenshots use fake demo data only.
 
 ![Skills](docs/screenshots/skills.png)
 
+## Interactive Demo
+
+A public-safe self-playing HTML demo is available at
+[`demo/index.html`](demo/index.html). It uses fake dashboard data and does not
+connect to Codex, read local files, call OpenAI, publish anything, or reveal
+private paths. The included demo music is owner-created by JQAI Systems.
+
+Companion video scripts, storyboards, and HyperFrames source projects live in
+[`docs/video/`](docs/video/) for the launch presentation, practical tutorial,
+and browser walkthrough. Rendered MP4 drafts stay local in `video-output/`
+until they are reviewed and intentionally uploaded elsewhere.
+
 ## What It Shows
 
 - System Health: Codex CLI status, local session coverage, last sync, OTel
@@ -116,6 +128,13 @@ Open `http://127.0.0.1:5173`.
 
 For starter prompts and a safe task-writing flow, see
 [`docs/task_templates.md`](docs/task_templates.md).
+
+## Video Kit
+
+Public-safe launch and tutorial video scripts live in
+[`docs/video/`](docs/video/), including the launch presentation, practical
+tutorial, and browser walkthrough. Rendered videos should stay local in
+`video-output/` unless they are intentionally reviewed and uploaded.
 
 ## Optional OTel
 

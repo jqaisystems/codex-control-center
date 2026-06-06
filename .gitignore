@@ -25,6 +25,9 @@ auth.json
 logs/
 data/
 .codex-control-center/
+video-output/
+docs/video/hyperframes/**/assets/*.wav
+docs/video/hyperframes/**/assets/*.mp3
 
 # Private reference materials from the source workspace
 ../build-your-own-dashboard-guide.html
