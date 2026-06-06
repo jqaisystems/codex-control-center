@@ -1,10 +1,25 @@
-# Build Your Own Codex Control Center Prompt
+# Build Your Own Local AI Agent Control Center Prompt
 
-Use this prompt in Codex to build a local dashboard similar to this project.
+Use this public-safe prompt in Codex to build a local dashboard inspired by
+Codex Control Center.
+
+It can also be adapted for Claude Code, Cursor, or other coding LLMs. Before
+building with another tool, ask the assistant to adapt the CLI commands, local
+session paths, event formats, and sandbox controls for that environment while
+preserving the privacy rules below.
+
+Safety note: review any generated code before running it. Do not give the
+assistant private logs, credentials, raw prompts, account files, API keys,
+production data, or private screenshots. Start with fake fixtures first.
 
 ---
 
-Build a local-first Codex Control Center.
+Build a local-first AI agent control center inspired by Codex Control Center.
+
+If you are running in Codex, use Codex-specific paths and commands. If you are
+running in Claude Code, Cursor, or another coding LLM, adapt the implementation
+to that tool's CLI, local session format, sandbox model, and metadata paths.
+Keep the same local-first, metadata-only, approval-gated privacy model.
 
 Requirements:
 
@@ -26,6 +41,17 @@ Requirements:
 - Block `danger-full-access` in v1.
 - Emergency stop may kill only dashboard-launched child PIDs.
 - Include fake fixtures and a public-safety checklist for GitHub sharing.
+
+Public-sharing rules:
+
+- Use fake demo data only.
+- Do not include private project names, client names, account identifiers,
+  local usernames, raw prompts, logs, databases, exports, or screenshots with
+  private UI.
+- Document which data is read, which data is stored, and which data is never
+  touched.
+- Add a scanner or checklist that flags secrets, local paths, databases, logs,
+  and raw session files before publishing.
 
 Deliver:
 

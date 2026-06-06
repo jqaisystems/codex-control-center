@@ -10,10 +10,15 @@ local paths are loaded.
 Open `videos.html` to watch the embedded launch, tutorial, and browser
 walkthrough videos. Embedded videos load YouTube content.
 
+Open `build-your-own.html` to copy the public-safe build prompt for creating a
+similar local-first AI agent control center with Codex, Claude Code, Cursor, or
+another coding LLM after adapting tool-specific paths and commands.
+
 ## Included
 
 - `index.html`: the interactive demo.
 - `videos.html`: embedded YouTube video page.
+- `build-your-own.html`: copyable public-safe build prompt.
 - `assets/jqai-horizontal-reversed.svg`: JQAI Systems logo used by the demo.
 
 ## Included Music

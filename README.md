@@ -32,6 +32,19 @@ Open the hosted demo:
 Watch embedded videos:
 [`https://jqaisystems.github.io/codex-control-center/demo/videos.html`](https://jqaisystems.github.io/codex-control-center/demo/videos.html)
 
+## Build Your Own
+
+Use the public-safe prompt in
+[`build-your-own-codex-control-center-prompt.md`](build-your-own-codex-control-center-prompt.md)
+to build a local-first AI agent control center inspired by this project.
+
+The prompt can be adapted for Codex, Claude Code, Cursor, or other coding LLMs.
+Ask the assistant to adjust CLI commands, session paths, event formats, and
+sandbox controls for the tool you use while preserving the same privacy rules.
+
+Open the website version:
+[`https://jqaisystems.github.io/codex-control-center/demo/build-your-own.html`](https://jqaisystems.github.io/codex-control-center/demo/build-your-own.html)
+
 ## Watch
 
 - [Official Launch](https://www.youtube.com/watch?v=idyHU9XNNSA): 60-second
