@@ -7,9 +7,13 @@ Open `index.html` in a browser to preview the demo. It uses fake UI data only:
 no local Codex sessions, prompts, logs, account data, private folders, or full
 local paths are loaded.
 
+Open `videos.html` to watch the embedded launch, tutorial, and browser
+walkthrough videos. Embedded videos load YouTube content.
+
 ## Included
 
 - `index.html`: the interactive demo.
+- `videos.html`: embedded YouTube video page.
 - `assets/jqai-horizontal-reversed.svg`: JQAI Systems logo used by the demo.
 
 ## Included Music

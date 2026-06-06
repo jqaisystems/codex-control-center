@@ -29,6 +29,9 @@ private paths. The included demo music is owner-created by JQAI Systems.
 Open the hosted demo:
 [`https://jqaisystems.github.io/codex-control-center/demo/`](https://jqaisystems.github.io/codex-control-center/demo/)
 
+Watch embedded videos:
+[`https://jqaisystems.github.io/codex-control-center/demo/videos.html`](https://jqaisystems.github.io/codex-control-center/demo/videos.html)
+
 ## Watch
 
 - [Official Launch](https://www.youtube.com/watch?v=idyHU9XNNSA): 60-second

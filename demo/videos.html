@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codex Control Center Videos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#050911;
+  --panel:#111827;
+  --panel-soft:#161f2f;
+  --border:#263246;
+  --text:#f8fbff;
+  --muted:#9fb0c8;
+  --accent:#16c9d2;
+  --blue:#5b8cff;
+}
+html{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+body{min-height:100vh;margin:0;background:radial-gradient(circle at 18% 0,rgba(22,201,210,.18),transparent 34%),linear-gradient(145deg,#030712,#0b1020 62%,#07131a)}
+a{color:inherit}
+.shell{width:min(1180px,calc(100% - 40px));margin:0 auto;padding:34px 0 48px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:56px}
+.logo{width:min(310px,72vw);height:auto;display:block;filter:drop-shadow(0 18px 60px rgba(22,201,210,.16))}
+.nav-links{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#dce8ff;text-decoration:none;font-size:13px;font-weight:800}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--blue));border:0;color:#051019}
+.hero{max-width:850px;margin-bottom:30px}
+.eyebrow{display:inline-flex;align-items:center;border:1px solid rgba(22,201,210,.36);background:rgba(22,201,210,.1);color:var(--accent);border-radius:999px;padding:7px 11px;font-family:"JetBrains Mono",Consolas,monospace;font-size:12px;font-weight:700}
+h1{margin:18px 0 16px;font-size:clamp(38px,7vw,78px);line-height:.96;letter-spacing:0;font-weight:900}
+.lead{max-width:760px;color:var(--muted);font-size:18px;line-height:1.6;margin:0}
+.notice{margin-top:20px;max-width:780px;padding:13px 15px;border:1px solid rgba(242,184,75,.35);border-radius:10px;background:rgba(242,184,75,.08);color:#ffe0a2;font-size:13px;line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:32px}
+.video-card{background:rgba(17,24,39,.92);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 22px 80px rgba(0,0,0,.26)}
+.frame{position:relative;aspect-ratio:16/9;background:#000}
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.body{padding:18px}
+.tag{font-family:"JetBrains Mono",Consolas,monospace;font-size:11px;color:var(--accent);text-transform:lowercase;margin-bottom:10px}
+h2{font-size:19px;line-height:1.25;margin:0 0 9px}
+.body p{color:var(--muted);line-height:1.55;font-size:14px;margin:0 0 16px}
+.youtube{font-size:13px;font-weight:800;color:#dce8ff;text-decoration:none}
+.footer{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:34px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);color:var(--muted);font-size:13px;line-height:1.5}
+.footer strong{color:#fff}
+@media (max-width:980px){
+  .grid{grid-template-columns:1fr}
+  .nav{align-items:flex-start;flex-direction:column}
+  .nav-links{justify-content:flex-start}
+}
+@media (max-width:620px){
+  .shell{width:min(100% - 24px,1180px);padding-top:20px}
+  .nav{margin-bottom:34px}
+  h1{font-size:42px}
+  .lead{font-size:16px}
+  .footer{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+<body>
+<main class="shell">
+  <nav class="nav" aria-label="Video page navigation">
+    <img class="logo" src="assets/jqai-horizontal-reversed.svg" alt="JQAI Systems - think // build // automate">
+    <div class="nav-links">
+      <a class="btn primary" href="./">Interactive demo</a>
+      <a class="btn" href="https://github.com/jqaisystems/codex-control-center">GitHub repo</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <span class="eyebrow">codex control center v0.1.0</span>
+    <h1>Watch the public demo videos</h1>
+    <p class="lead">Launch overview, practical setup tutorial, and full browser walkthrough for the local-first Codex Control Center.</p>
+    <p class="notice">Embedded videos load YouTube content. The videos use fake/demo data only and do not show private vaults, raw prompts, logs, account details, or full local paths.</p>
+  </section>
+
+  <section class="grid" aria-label="Hosted Codex Control Center videos">
+    <article class="video-card">
+      <div class="frame">
+        <iframe src="https://www.youtube-nocookie.com/embed/idyHU9XNNSA" title="Codex Control Center v0.1.0 Official Launch" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div class="body">
+        <div class="tag">official launch</div>
+        <h2>Codex Control Center v0.1.0</h2>
+        <p>A compact overview of the local dashboard, safety posture, demo kit, and approval-gated Codex workflow.</p>
+        <a class="youtube" href="https://www.youtube.com/watch?v=idyHU9XNNSA">Open on YouTube</a>
+      </div>
+    </article>
+
+    <article class="video-card">
+      <div class="frame">
+        <iframe src="https://www.youtube-nocookie.com/embed/5BC9uaomqr0" title="Codex Control Center Tutorial v0.1.0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div class="body">
+        <div class="tag">step-by-step tutorial</div>
+        <h2>Install and use it safely</h2>
+        <p>Windows-first walkthrough covering local setup, Observe Mode, Control Mode, workspaces, and safe starter tasks.</p>
+        <a class="youtube" href="https://www.youtube.com/watch?v=5BC9uaomqr0">Open on YouTube</a>
+      </div>
+    </article>
+
+    <article class="video-card">
+      <div class="frame">
+        <iframe src="https://www.youtube-nocookie.com/embed/_4W7F5A2NlE" title="Codex Control Center Full Browser Walkthrough v0.1.0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div class="body">
+        <div class="tag">browser walkthrough</div>
+        <h2>Tour the full dashboard</h2>
+        <p>Browser tour of system mode, usage, readiness, tasks, results, vault report, skills, and publish checks.</p>
+        <a class="youtube" href="https://www.youtube.com/watch?v=_4W7F5A2NlE">Open on YouTube</a>
+      </div>
+    </article>
+  </section>
+
+  <footer class="footer">
+    <span><strong>No API key required for local observation.</strong> The dashboard is local-first and metadata-only by default.</span>
+    <span>JQAI Systems - think // build // automate</span>
+  </footer>
+</main>
+</body>
+</html>
