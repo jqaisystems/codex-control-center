@@ -7,6 +7,23 @@ metadata, local session JSONL files, skills/plugins metadata, schedules, and
 optional local OTel events. It never reads or stores `auth.json`, and it binds
 to `127.0.0.1` for local-only use.
 
+## Public Links
+
+- Website case study:
+  [ai.joaoqueiros.com/systems/codex-control-center](https://www.ai.joaoqueiros.com/systems/codex-control-center)
+- Blog guide and build prompt:
+  [Build Your Own Local AI Agent Control Center](https://www.ai.joaoqueiros.com/blog/build-your-own-local-ai-agent-control-center)
+- Interactive demo:
+  [jqaisystems.github.io/codex-control-center/demo](https://jqaisystems.github.io/codex-control-center/demo/)
+- Video hub:
+  [jqaisystems.github.io/codex-control-center/demo/videos.html](https://jqaisystems.github.io/codex-control-center/demo/videos.html)
+- YouTube videos:
+  [Official Launch](https://www.youtube.com/watch?v=idyHU9XNNSA),
+  [Step-by-Step Tutorial](https://www.youtube.com/watch?v=5BC9uaomqr0),
+  [Full Browser Walkthrough](https://www.youtube.com/watch?v=_4W7F5A2NlE)
+- Release:
+  [v0.1.0](https://github.com/jqaisystems/codex-control-center/releases/tag/v0.1.0)
+
 ## Screenshots
 
 These screenshots use fake demo data only.

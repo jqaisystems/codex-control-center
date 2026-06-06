@@ -5,6 +5,15 @@ Center videos.
 
 ## Videos
 
+- Website case study:
+  [Codex Control Center](https://www.ai.joaoqueiros.com/systems/codex-control-center)
+- Blog guide and build prompt:
+  [Build Your Own Local AI Agent Control Center](https://www.ai.joaoqueiros.com/blog/build-your-own-local-ai-agent-control-center)
+- Interactive demo:
+  [GitHub Pages demo](https://jqaisystems.github.io/codex-control-center/demo/)
+- Video hub:
+  [Embedded video page](https://jqaisystems.github.io/codex-control-center/demo/videos.html)
+
 - Hosted launch video:
   [Codex Control Center v0.1.0 - Official Launch](https://www.youtube.com/watch?v=idyHU9XNNSA)
 - Hosted tutorial:
@@ -58,6 +67,32 @@ Suggested local output names:
 
 After upload, add public hosted links to the README or release notes only after
 reviewing the final rendered videos.
+
+## Public Link Block For Video Descriptions
+
+Use this public-safe block in YouTube descriptions and release notes:
+
+```text
+Codex Control Center v0.1.0
+
+Website case study:
+https://www.ai.joaoqueiros.com/systems/codex-control-center
+
+Blog guide and build prompt:
+https://www.ai.joaoqueiros.com/blog/build-your-own-local-ai-agent-control-center
+
+GitHub repository:
+https://github.com/jqaisystems/codex-control-center
+
+Interactive demo:
+https://jqaisystems.github.io/codex-control-center/demo/
+
+Video hub:
+https://jqaisystems.github.io/codex-control-center/demo/videos.html
+
+No API key required for local observation. The dashboard is local-first,
+metadata-only by default, and uses approval-gated tasks for Control Mode.
+```
 
 ## Rendering Drafts
 
