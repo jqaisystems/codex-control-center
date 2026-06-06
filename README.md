@@ -26,6 +26,9 @@ A public-safe self-playing HTML demo is available at
 connect to Codex, read local files, call OpenAI, publish anything, or reveal
 private paths. The included demo music is owner-created by JQAI Systems.
 
+Open the hosted demo:
+[`https://jqaisystems.github.io/codex-control-center/demo/`](https://jqaisystems.github.io/codex-control-center/demo/)
+
 Companion video scripts, storyboards, and HyperFrames source projects live in
 [`docs/video/`](docs/video/) for the launch presentation, practical tutorial,
 and browser walkthrough. Rendered MP4 drafts stay local in `video-output/`
