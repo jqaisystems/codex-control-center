@@ -1,6 +1,8 @@
 # Codex Control Center
 
-Local observability and approval-gated control for Codex.
+A local dashboard for Codex usage, sessions and workflow review.
+
+[Try the sample-data demo](https://jqaisystems.github.io/codex-control-center/demo/) · [Watch the videos](https://jqaisystems.github.io/codex-control-center/demo/videos.html) · [Get v0.1.0](https://github.com/jqaisystems/codex-control-center/releases/tag/v0.1.0)
 
 **No API key required for local observation.** The dashboard reads local Codex
 metadata, local session JSONL files, skills/plugins metadata, schedules, and
