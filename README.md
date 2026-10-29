@@ -9,22 +9,7 @@ metadata, local session JSONL files, skills/plugins metadata, schedules, and
 optional local OTel events. It never reads or stores `auth.json`, and it binds
 to `127.0.0.1` for local-only use.
 
-## Public Links
-
-- Website case study:
-  [ai.joaoqueiros.com/systems/codex-control-center](https://www.ai.joaoqueiros.com/systems/codex-control-center)
-- Blog guide and build prompt:
-  [Build Your Own Local AI Agent Control Center](https://www.ai.joaoqueiros.com/blog/build-your-own-local-ai-agent-control-center)
-- Interactive demo:
-  [jqaisystems.github.io/codex-control-center/demo](https://jqaisystems.github.io/codex-control-center/demo/)
-- Video hub:
-  [jqaisystems.github.io/codex-control-center/demo/videos.html](https://jqaisystems.github.io/codex-control-center/demo/videos.html)
-- YouTube videos:
-  [Official Launch](https://www.youtube.com/watch?v=idyHU9XNNSA),
-  [Step-by-Step Tutorial](https://www.youtube.com/watch?v=5BC9uaomqr0),
-  [Full Browser Walkthrough](https://www.youtube.com/watch?v=_4W7F5A2NlE)
-- Release:
-  [v0.1.0](https://github.com/jqaisystems/codex-control-center/releases/tag/v0.1.0)
+[Requirements](#requirements) · [Quick start](#quick-start) · [Documentation](#documentation) · [Support](#support)
 
 ## Screenshots
 
@@ -32,74 +17,21 @@ These screenshots use fake demo data only.
 
 ![Dashboard](docs/screenshots/dashboard.png)
 
+<details>
+<summary>More dashboard screenshots</summary>
+
 ![Tasks](docs/screenshots/tasks.png)
 
 ![Results](docs/screenshots/results.png)
 
 ![Skills](docs/screenshots/skills.png)
 
-## Interactive Demo
 
-A public-safe self-playing HTML demo is available at
-[`demo/index.html`](demo/index.html). It uses fake dashboard data and does not
-connect to Codex, read local files, call OpenAI, publish anything, or reveal
-private paths. The included demo music is owner-created by JQAI Systems.
+</details>
 
-Open the hosted demo:
-[`https://jqaisystems.github.io/codex-control-center/demo/`](https://jqaisystems.github.io/codex-control-center/demo/)
+## Requirements
 
-Watch embedded videos:
-[`https://jqaisystems.github.io/codex-control-center/demo/videos.html`](https://jqaisystems.github.io/codex-control-center/demo/videos.html)
-
-## Build Your Own
-
-Use the public-safe prompt in
-[`build-your-own-codex-control-center-prompt.md`](build-your-own-codex-control-center-prompt.md)
-to build a local-first AI agent control center inspired by this project.
-
-The prompt can be adapted for Codex, Claude Code, Cursor, or other coding LLMs.
-Ask the assistant to adjust CLI commands, session paths, event formats, and
-sandbox controls for the tool you use while preserving the same privacy rules.
-
-Open the website version:
-[`https://jqaisystems.github.io/codex-control-center/demo/build-your-own.html`](https://jqaisystems.github.io/codex-control-center/demo/build-your-own.html)
-
-## Watch
-
-- [Official Launch](https://www.youtube.com/watch?v=idyHU9XNNSA): 60-second
-  overview of Codex Control Center v0.1.0.
-- [Step-by-Step Tutorial](https://www.youtube.com/watch?v=5BC9uaomqr0): safe
-  setup and usage walkthrough.
-- [Full Browser Walkthrough](https://www.youtube.com/watch?v=_4W7F5A2NlE):
-  browser tour of the dashboard, tasks, reports, skills, and publish checks.
-
-Companion video scripts, storyboards, and HyperFrames source projects live in
-[`docs/video/`](docs/video/) for the launch presentation, practical tutorial,
-and browser walkthrough. Rendered MP4 drafts stay local in `video-output/`
-until they are reviewed and intentionally uploaded elsewhere.
-
-## What It Shows
-
-- System Health: Codex CLI status, local session coverage, last sync, OTel
-  state, database label, and privacy posture.
-- Usage Remaining: best-effort local usage metadata parsed from Codex
-  `token_count` events with `payload.rate_limits`.
-- Today Activity: sessions, token totals, tool counts, recent sessions, and top
-  tools from local metadata.
-- Tasks: approval-gated task queue for dashboard-launched `codex exec --json`
-  runs.
-- Schedules: local schedule definitions that materialize due work into
-  approval-gated tasks only.
-- Results: searchable run history with safe output summaries, durations, event
-  counts, tool counts, exit codes, and sanitized failure reasons.
-- Skills: discovered local Codex skills and plugin-provided skills.
-
-## Modes
-
-- Observe Mode: works without an API key and does not call OpenAI.
-- Control Mode: launches approved tasks through your installed
-  `codex exec --json --ephemeral`. If Codex is signed in with ChatGPT, this does
-  not require an API key.
+Windows 11 is the primary tested setup. Install Python and Node.js/npm for the launcher and React build. Install and sign in to Codex to observe sessions or run approved tasks. The sample-data demo needs only a browser.
 
 ## Quick Start
 
@@ -153,6 +85,94 @@ npm run dev
 ```
 
 Open `http://127.0.0.1:5173`.
+
+## Documentation
+
+[Task templates](docs/task_templates.md) · [Build your own](build-your-own-codex-control-center-prompt.md) · [Security](SECURITY.md) · [Video source](docs/video/)
+
+## Support
+
+Use [GitHub issues](https://github.com/jqaisystems/codex-control-center/issues/new/choose) for bugs and questions. Include your operating system, launch method and a redacted error. Follow [SECURITY.md](SECURITY.md) for security concerns.
+
+## Interactive Demo
+
+A public-safe self-playing HTML demo is available at
+[`demo/index.html`](demo/index.html). It uses fake dashboard data and does not
+connect to Codex, read local files, call OpenAI, publish anything, or reveal
+private paths. The included demo music is owner-created by JQAI Systems.
+
+Open the hosted demo:
+[`https://jqaisystems.github.io/codex-control-center/demo/`](https://jqaisystems.github.io/codex-control-center/demo/)
+
+Watch embedded videos:
+[`https://jqaisystems.github.io/codex-control-center/demo/videos.html`](https://jqaisystems.github.io/codex-control-center/demo/videos.html)
+
+## Public Links
+
+- Website case study:
+  [ai.joaoqueiros.com/systems/codex-control-center](https://www.ai.joaoqueiros.com/systems/codex-control-center)
+- Blog guide and build prompt:
+  [Build Your Own Local AI Agent Control Center](https://www.ai.joaoqueiros.com/blog/build-your-own-local-ai-agent-control-center)
+- Interactive demo:
+  [jqaisystems.github.io/codex-control-center/demo](https://jqaisystems.github.io/codex-control-center/demo/)
+- Video hub:
+  [jqaisystems.github.io/codex-control-center/demo/videos.html](https://jqaisystems.github.io/codex-control-center/demo/videos.html)
+- YouTube videos:
+  [Official Launch](https://www.youtube.com/watch?v=idyHU9XNNSA),
+  [Step-by-Step Tutorial](https://www.youtube.com/watch?v=5BC9uaomqr0),
+  [Full Browser Walkthrough](https://www.youtube.com/watch?v=_4W7F5A2NlE)
+- Release:
+  [v0.1.0](https://github.com/jqaisystems/codex-control-center/releases/tag/v0.1.0)
+
+## Build Your Own
+
+Use the public-safe prompt in
+[`build-your-own-codex-control-center-prompt.md`](build-your-own-codex-control-center-prompt.md)
+to build a local-first AI agent control center inspired by this project.
+
+The prompt can be adapted for Codex, Claude Code, Cursor, or other coding LLMs.
+Ask the assistant to adjust CLI commands, session paths, event formats, and
+sandbox controls for the tool you use while preserving the same privacy rules.
+
+Open the website version:
+[`https://jqaisystems.github.io/codex-control-center/demo/build-your-own.html`](https://jqaisystems.github.io/codex-control-center/demo/build-your-own.html)
+
+## Watch
+
+- [Official Launch](https://www.youtube.com/watch?v=idyHU9XNNSA): 60-second
+  overview of Codex Control Center v0.1.0.
+- [Step-by-Step Tutorial](https://www.youtube.com/watch?v=5BC9uaomqr0): safe
+  setup and usage walkthrough.
+- [Full Browser Walkthrough](https://www.youtube.com/watch?v=_4W7F5A2NlE):
+  browser tour of the dashboard, tasks, reports, skills, and publish checks.
+
+Companion video scripts, storyboards, and HyperFrames source projects live in
+[`docs/video/`](docs/video/) for the launch presentation, practical tutorial,
+and browser walkthrough. Rendered MP4 drafts stay local in `video-output/`
+until they are reviewed and intentionally uploaded elsewhere.
+
+## What It Shows
+
+- System Health: Codex CLI status, local session coverage, last sync, OTel
+  state, database label, and privacy posture.
+- Usage Remaining: best-effort local usage metadata parsed from Codex
+  `token_count` events with `payload.rate_limits`.
+- Today Activity: sessions, token totals, tool counts, recent sessions, and top
+  tools from local metadata.
+- Tasks: approval-gated task queue for dashboard-launched `codex exec --json`
+  runs.
+- Schedules: local schedule definitions that materialize due work into
+  approval-gated tasks only.
+- Results: searchable run history with safe output summaries, durations, event
+  counts, tool counts, exit codes, and sanitized failure reasons.
+- Skills: discovered local Codex skills and plugin-provided skills.
+
+## Modes
+
+- Observe Mode: works without an API key and does not call OpenAI.
+- Control Mode: launches approved tasks through your installed
+  `codex exec --json --ephemeral`. If Codex is signed in with ChatGPT, this does
+  not require an API key.
 
 ## Privacy Defaults
 
