@@ -31,7 +31,14 @@ These screenshots use fake demo data only.
 
 ## Requirements
 
-Windows 11 is the primary tested setup. Install Python and Node.js/npm for the launcher and React build. Install and sign in to Codex to observe sessions or run approved tasks. The sample-data demo needs only a browser.
+Windows 11 is the primary tested platform. For the documented local setup, use:
+
+- Python **3.11 or newer**, available as `python` on PATH.
+- A supported Node.js LTS release, **22.12+** or a later compatible LTS, with npm. The UI uses Vite 7; its technical minimum is Node 20.19+ or 22.12+. Use a supported LTS for new installs. See [Vite 7 requirements](https://v7.vite.dev/guide/) and [Node release status](https://nodejs.org/en/about/previous-releases).
+- PowerShell for the Windows launcher.
+- Codex installed and signed in to observe sessions or run approved tasks. The sample-data demo needs only a browser.
+
+Check `python --version` and `node --version` before starting. The steps below cover the Windows launcher and UI build.
 
 ## Quick Start
 
@@ -75,16 +82,22 @@ python -m backend
 
 Open `http://127.0.0.1:8765`.
 
-For frontend development:
+For frontend development, first complete the dependency installation above. Use **two terminal windows**, because the backend command keeps running.
+
+Terminal 1, from the repository root:
 
 ```powershell
-cd codex-control-center
-python -m backend
+.\.venv\Scripts\python.exe -m backend
+```
+
+Terminal 2, from the repository root:
+
+```powershell
 cd ui
 npm run dev
 ```
 
-Open `http://127.0.0.1:5173`.
+Leave both open. The API stays on `http://127.0.0.1:8765`; the frontend opens at `http://127.0.0.1:5173`.
 
 ## Documentation
 
